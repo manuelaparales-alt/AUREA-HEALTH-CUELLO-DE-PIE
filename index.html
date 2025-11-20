@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>VISUALIZADOR AUREA HEALTH</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #viewer {
+      margin: 20px auto;
+      width: 600px;
+      height: 600px;
+      overflow: hidden;
+      border: 2px solid #444;
+      position: relative;
+    }
+    #viewer img {
+      max-width: 100%;
+      max-height: 100%;
+      transform-origin: center;
+      transition: transform 0.2s ease, filter 0.2s ease;
+      cursor: grab;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .controls, .images {
+      margin: 15px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      background: #1976d2;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover { background: #0d47a1; }
+    select {
+      padding: 6px;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+  </style>
+
+
+</head>
+<body>
+  <h2>VISUALIZADOR AUREA HEALTH</h2>
+
+  <!-- Selección de imagen -->
+  <div class="images">
+    <label for="imageSelect">Selecciona imagen:</label>
+    <select id="imageSelect" onchange="loadImage(this.value)">
+      <option value="IMAGEN1.png">imagen1</option>
+      <option value="IMAGEN2.png">imagen2</option>
+      <option value="IMAGEN3.png">imagen3</option>
+  <option value="IMAGEN4.png">imagen4</option>
+  <option value="IMAGEN5.png">imagen5</option>
+  <option value="IMAGEN6.png">imagen6</option>
+  <option value="IMAGEN7.png">imagen7</option>
+  <option value="IMAGEN8.png">imagen8</option>
+  <option value="IMAGEN9.png">imagen9</option>
+  <option value="IMAGEN10.png">imagen10</option>
+  <option value="IMAGEN11.png">imagen11</option>
+  <option value="IMAGEN12.png">imagen12</option>
+  <option value="IMAGEN13.png">imagen13</option>
+  <option value="IMAGEN14.png">imagen14</option>
+  <option value="IMAGEN15.png">imagen15</option>
+  <option value="IMAGEN16.png">imagen16</option>
+  <option value="IMAGEN17.png">imagen17</option>
+  <option value="IMAGEN18.png">imagen18</option>
+  <option value="IMAGEN19.png">imagen19</option>
+  <option value="IMAGEN20.png">imagen20</option>
+  <option value="IMAGEN21.png">imagen21</option>
+  <option value="IMAGEN22.png">imagen22</option>
+  <option value="IMAGEN23.png">imagen23</option>
+  <option value="IMAGEN24.png">imagen24</option>
+  <option value="IMAGEN25.png">imagen25</option>
+  <option value="IMAGEN26.png">imagen26</option>
+  <option value="IMAGEN27.png">imagen27</option>
+  <option value="IMAGEN28.png">imagen28</option>
+  <option value="IMAGEN29.png">imagen29</option>
+  <option value="IMAGEN30.png">imagen30</option>
+  <option value="IMAGEN31.png">imagen31</option>
+  <option value="IMAGEN32.png">imagen32</option>
+  <option value="IMAGEN33.png">imagen33</option>
+  <option value="IMAGEN34.png">imagen34</option>
+  <option value="IMAGEN35.png">imagen35</option>
+  <option value="IMAGEN36.png">imagen36</option>
+  <option value="IMAGEN37.png">imagen37</option>
+
+
+
+    </select>
+  </div>
+
+  <!-- Área del visor -->
+  <div id="viewer">
+<div class="patient-info">
+  <b>Nombre:</b> ROSALBA SALAS<br>
+  <b>Tipo documento:</b> CC<br>
+  <b>Número documento:</b> 119308123<br>
+  <b>Estudio:</b> IRM DE CUELLO DE PIE<br>
+  <b>Fecha y hora:</b> 10/10/2025 – 09:00 AM
+</div>
+
+    <img id="image" src="rx_mano.jpg" alt="Imagen médica">
+  </div>
+
+  <!-- Controles -->
+  <div class="controls">
+    <button onclick="rotate()">Rotar</button>
+    <button onclick="zoom(1.1)">Zoom +</button>
+    <button onclick="zoom(0.9)">Zoom -</button>
+    <button onclick="reset()">Reset</button>
+    <button onclick="brightness(10)">Brillo +</button>
+    <button onclick="brightness(-10)">Brillo -</button>
+  </div>
+
+  <script>
+    const img = document.getElementById("image");
+    let scale = 1, angle = 0, brightnessValue = 100, posX = 0, posY = 0;
+    let dragging = false, startX, startY;
+
+    function draw() {
+      img.style.transform =
+        `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${angle}deg)`;
+      img.style.filter = `brightness(${brightnessValue}%) contrast(100%)`;
+    }
+
+    function rotate() { angle += 90; draw(); }
+    function zoom(factor) { scale *= factor; draw(); }
+    function reset() { scale = 1; angle = 0; brightnessValue = 100; posX = 0; posY = 0; draw(); }
+    function brightness(val) { brightnessValue += val; draw(); }
+
+    // Mover imagen con drag
+    img.addEventListener("mousedown", e => {
+      dragging = true;
+      startX = e.clientX - posX;
+      startY = e.clientY - posY;
+      img.style.cursor = "grabbing";
+    });
+    window.addEventListener("mouseup", () => {
+      dragging = false;
+      img.style.cursor = "grab";
+    });
+    window.addEventListener("mousemove", e => {
+      if (dragging) {
+        posX = e.clientX - startX;
+        posY = e.clientY - startY;
+        draw();
+      }
+    });
+
+    // Cargar nueva imagen desde el selector
+    function loadImage(file) {
+      img.src = file;
+      reset();
+    }
+
+    draw();
+  </script>
+</body>
+</html>
